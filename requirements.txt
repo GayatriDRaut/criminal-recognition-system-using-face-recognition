@@ -1,0 +1,7 @@
+Django==3.2.3
+djangorestframework==3.13.1
+face_recognition==1.3.0
+numpy==1.18.4
+Pillow==9.1.1
+python_bcrypt==0.3.2
+~pencv_python_headless==4.5.5.64

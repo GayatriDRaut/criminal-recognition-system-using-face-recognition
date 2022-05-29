@@ -34,11 +34,13 @@ To install the required packages use the following command
 Libraries and Framework used:  
 Python == 3.6.15   
 Django == 3.2.3   
-Django Rest Framework == 3.13.1  
+Django Rest Framework == 3.13.1 
+Numpy == 1.18.4 
 OpenCV == 4.5.5.64  
 Pillow == 5.4.1
 Dlib == 19.22.0  
-face-recognition == 1.3.0   
+face-recognition == 1.3.0  
+~pencv_python_headless == 4.5.5.64 
 JQuery   
 mySQL database 
 
