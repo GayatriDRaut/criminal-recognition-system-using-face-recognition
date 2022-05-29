@@ -79,25 +79,25 @@ And open http://127.0.0.1:8000/ at your system
 ## Steps to navigate the website
 **1)Login Page**
 To login enter the following credentials  
-**Police EmailID : gayatri@gmail.com**
+**Police EmailID : gayatri@gmail.com**    
 **Password: gayatri**  
 Hit the Login buttton to enter the website   
-   
-    
+         
+       
 **2)Add Criminals**
 Under the criminals tab you will see add criminals tab, it will open a form wherein you have to fill criminal data, their photo to register them to the website.  
-   
      
+       
 **3)View Criminals**
 Right below the add criminals tab, view criminals tab allows the user to view the data of the criminals present in the database.  
    
-  
+    
 **4) Identify Criminals**
 Two options are avialable to identify criminals that is to use a photo and the system will detect if their face is present there or not.
 And the second option is to detect the criminal using webcam.   
-    
       
- **5)Track Criminals**
+      
+ **5)Track Criminals**   
  After detecting the criminals in live cameras the webiste updates the database with the last spotted location and time of the criminal.
 
 
