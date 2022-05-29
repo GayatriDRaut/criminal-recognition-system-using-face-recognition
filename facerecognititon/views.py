@@ -13,7 +13,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from .serializers import FileSerializer
 from django.contrib.auth import logout
-from .models import User, Person, ThiefLocation
+from .models import User, Criminal, CriminalLastSpotted
 
 
 class FileView(APIView):
@@ -65,7 +65,7 @@ def addCitizen(request):
 # view to add save citizen
 def saveCitizen(request):
     if request.method == 'POST':
-        citizen=Person.objects.filter(aadhar_no=request.POST["aadhar_no"])
+        citizen=Criminal.objects.filter(aadhar_no=request.POST["aadhar_no"])
         if citizen.exists():
             messages.error(request,"Citizen with that Aadhar Number already exists")
             return redirect(addCitizen)
@@ -75,21 +75,21 @@ def saveCitizen(request):
             filename = fs.save(myfile.name, myfile)
             uploaded_file_url = fs.url(filename)
 
-            person = Person.objects.create(
+            criminal = Criminal.objects.create(
                 name=request.POST["name"],
                 aadhar_no=request.POST["aadhar_no"],
                 address=request.POST["address"],
                 picture=uploaded_file_url[1:],
                 status="Free"
             )
-            person.save()
+            criminal.save()
             messages.add_message(request, messages.INFO, "Citizen successfully added")
             return redirect(viewCitizens)
 
 
 # view to get citizen(criminal) details
 def viewCitizens(request):
-    citizens=Person.objects.all();
+    citizens=Criminal.objects.all();
     context={
         "citizens":citizens
     }
@@ -98,7 +98,7 @@ def viewCitizens(request):
 
 #view to set criminal status to wanted
 def wantedCitizen(request, citizen_id):
-    wanted = Person.objects.filter(pk=citizen_id).update(status='Wanted')
+    wanted = Criminal.objects.filter(pk=citizen_id).update(status='Wanted')
     if (wanted):
         messages.add_message(request,messages.INFO,"User successfully changed status to wanted")
     else:
@@ -107,7 +107,7 @@ def wantedCitizen(request, citizen_id):
 
 #view to set criminal status to free
 def freeCitizen(request, citizen_id):
-    free = Person.objects.filter(pk=citizen_id).update(status='Free')
+    free = Criminal.objects.filter(pk=citizen_id).update(status='Free')
     if (free):
         messages.add_message(request,messages.INFO,"User successfully changed status to Found and Free from Search")
     else:
@@ -116,7 +116,7 @@ def freeCitizen(request, citizen_id):
 
 
 def spottedCriminals(request):
-    thiefs=ThiefLocation.objects.filter(status="Wanted")
+    thiefs=CriminalLastSpotted.objects.filter(status="Wanted")
     context={
         'thiefs':thiefs
     }
@@ -124,10 +124,10 @@ def spottedCriminals(request):
 
 
 def foundThief(request,thief_id):
-    free = ThiefLocation.objects.filter(pk=thief_id)
-    freectzn = ThiefLocation.objects.filter(aadhar_no=free.get().aadhar_no).update(status='Found')
+    free = CriminalLastSpotted.objects.filter(pk=thief_id)
+    freectzn = CriminalLastSpotted.objects.filter(aadhar_no=free.get().aadhar_no).update(status='Found')
     if(freectzn):
-        thief = ThiefLocation.objects.filter(pk=thief_id)
+        thief = CriminalLastSpotted.objects.filter(pk=thief_id)
         free = Person.objects.filter(aadhar_no=thief.get().aadhar_no).update(status='Found')
         if(free):
             messages.add_message(request,messages.INFO,"Thief updated to found, congratulations")
@@ -164,7 +164,7 @@ def detectImage(request):
     names=[]
     files=[]
 
-    prsn=Person.objects.all()
+    prsn=Criminal.objects.all()
     for criminal in prsn:
         images.append(criminal.name+'_image')
         encodings.append(criminal.name+'_face_encoding')
@@ -243,7 +243,7 @@ def detectWithWebcam(request):
     files=[]
     nationalIds=[]
 
-    prsn=Person.objects.all()
+    prsn=Criminal.objects.all()
     for criminal in prsn:
         images.append(criminal.name+'_image')
         encodings.append(criminal.name+'_face_encoding')
@@ -290,17 +290,17 @@ def detectWithWebcam(request):
             #if it matches with the one with minimum distance then print their name on the frame
             if matches[best_match_index]:
                 ntnl_id = n_id[best_match_index]
-                person = Person.objects.filter(aadhar_no=ntnl_id)
-                name = known_face_names[best_match_index]+', Status: '+person.get().status
+                criminal = Criminal.objects.filter(aadhar_no=ntnl_id)
+                name = known_face_names[best_match_index]+', Status: '+criminal.get().status
 
 
-                # if the face is of a wanted criminal then add it to ThiefLocation list
-                if(not(person.get().status=='Wanted')):
-                    thief = ThiefLocation.objects.create(
-                        name=person.get().name,
-                        aadhar_no=person.get().aadhar_no,
-                        address=person.get().address,
-                        picture=person.get().picture,
+                # if the face is of a wanted criminal then add it to CriminalLastSpotted list
+                if(not(criminal.get().status=='Wanted')):
+                    thief = CriminalLastSpotted.objects.create(
+                        name=criminal.get().name,
+                        aadhar_no=criminal.get().aadhar_no,
+                        address=criminal.get().address,
+                        picture=criminal.get().picture,
                         status='Wanted',
                         latitude='25.3176° N',
                         longitude='82.9739° E'

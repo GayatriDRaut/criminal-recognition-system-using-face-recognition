@@ -30,7 +30,7 @@ class User(models.Model):
     objects = UserManager()
 
 
-class Person(models.Model):
+class Criminal(models.Model):
     name = models.CharField(max_length=255)
     aadhar_no = models.CharField(max_length=255,default=None)
     address = models.CharField(max_length=255)
@@ -39,7 +39,7 @@ class Person(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-class ThiefLocation(models.Model):
+class CriminalLastSpotted(models.Model):
     name = models.CharField(max_length=255)
     aadhar_no = models.CharField(max_length=255)
     address = models.CharField(max_length=255)
