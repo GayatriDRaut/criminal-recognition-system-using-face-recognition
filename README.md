@@ -40,9 +40,33 @@ OpenCV == 4.5.5.64
 Pillow == 5.4.1
 Dlib == 19.22.0  
 face-recognition == 1.3.0  
-~pencv_python_headless == 4.5.5.64 
+opencv_python_headless == 4.5.5.64 
 JQuery   
 mySQL database 
+
+In settings.py file change the variable DATABASES:
+
+```bash
+# settings.py
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'OPTIONS': {
+            'read_default_file': '/path/to/my.cnf',
+        },
+    }
+}
+
+
+# my.cnf
+[client]
+database = NAME
+user = USER
+password = PASSWORD
+default-character-set = utf8
+```
+
+
 
 To start the app
 ```bash
@@ -59,14 +83,14 @@ And open http://127.0.0.1:8000/ at your system
 
     
 ## Screenshots
-**Log In Page of the website**
+### Log In Page of the website
 ![App Screenshot](screenshots/login.jpg?raw=true "Log In Page")  
-**Dashboard/Identify Criminals**  
+### Dashboard/Identify Criminals
 ![App Screenshot](screenshots/dashboard.jpg?raw=true "Log In Page")  
-**For viewing criminals in the Database**
+### For viewing criminals in the Database
 ![App Screenshot](screenshots/view_criminals.jpg?raw=true "Log In Page")  
-**Identify criminal in the database with webcam**
+### Identify criminal in the database with webcam
 ![App Screenshot](screenshots/webcam.png?raw=true "Log In Page")     
-**Last Spotted Criminal with date and time**
+### Last Spotted Criminal with date and time
 ![App Screenshot](screenshots/track_criminals.jpg?raw=true "Log In Page")    
 
